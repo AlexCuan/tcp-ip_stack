@@ -2,11 +2,34 @@
 #define _IPv4_H
 
 #include <stdint.h>
+#include "../eth/eth.h"
+#include "ipv4_route_table.h"
 
 #define IPv4_ADDR_SIZE 4
 #define IPv4_STR_MAX_LENGTH 16
 
 typedef unsigned char ipv4_addr_t [IPv4_ADDR_SIZE];
+
+typedef struct ipv4_layer
+{
+    eth_iface_t * iface;      /* Interfaz de red donde se encuentra esta capa */
+    ipv4_addr_t  addr;     /* Dirección IP de esta capa */
+    ipv4_addr_t  netmask;     /* Máscara de red de esta capa */
+    ipv4_route_table_t * routing_table; /* Tabla de rutas */
+} ipv4_layer_t;
+
+typedef struct ipv4_header {
+    uint8_t version_ihl;
+    uint8_t type_of_service;
+    uint16_t total_length;
+    uint16_t identification;
+    uint16_t flags_fragment_offset;
+    uint8_t time_to_live;
+    uint8_t protocol;
+    uint16_t header_checksum;
+    ipv4_addr_t src_addr;
+    ipv4_addr_t dest_addr;
+} ipv4_header_t;
 
 /* Dirección IPv4 a cero "0.0.0.0" */
 extern ipv4_addr_t IPv4_ZERO_ADDR;
@@ -63,5 +86,6 @@ int ipv4_str_addr ( char* str, ipv4_addr_t addr );
  */
 uint16_t ipv4_checksum ( unsigned char * data, int len );
 
+int ipv4_send (ipv4_layer_t * layer, ipv4_addr_t dst, uint8_t protocol,  unsigned char * payload, int payload_len);
 
 #endif /* _IPv4_H */

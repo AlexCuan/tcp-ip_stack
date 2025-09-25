@@ -1,7 +1,9 @@
 #include "ipv4.h"
+#include "ipv4_route_table.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+
 
 /* Dirección IPv4 a cero: "0.0.0.0" */
 ipv4_addr_t IPv4_ZERO_ADDR = { 0, 0, 0, 0 };
@@ -103,5 +105,12 @@ uint16_t ipv4_checksum ( unsigned char * data, int len )
 
   return (uint16_t) sum;
 }
+
+int ipv4_send (ipv4_layer_t * layer, ipv4_addr_t dst, uint8_t protocol,  unsigned char * payload, int payload_len)
+{
+  ipv4_route_t * route = ipv4_route_table_lookup(layer->routing_table, dst);
+  
+}
+
 
 
