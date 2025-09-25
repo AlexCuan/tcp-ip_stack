@@ -1,22 +1,26 @@
 #ifndef _IPv4_ROUTE_TABLE_H
 #define _IPv4_ROUTE_TABLE_H
 
-#include "ipv4.h"
 
-#include <stdio.h>
-
-/* Esta estructura almacena la información básica sobre la ruta a una subred. 
+/* Esta estructura almacena la información básica sobre la ruta a una subred.
  * Incluye la dirección y máscara de la subred destino, el nombre del interfaz
  * de salida, y la dirección IP del siguiente salto.
  *
  * Utilice los métodos 'ipv4_route_create()' e 'ipv4_route_free()' para crear
  * y liberar esta estrucutra. Adicionalmente debe completar la implementación
  * del método 'ipv4_route_lookup()'.
- * 
+ *
  * Probablemente para construir una tabla de rutas de un protocolo de
  * encaminamiento sea necesario añadir más campos a esta estructura, así como
  * modificar las funciones asociadas.
  */
+
+/* Forward declarations */
+typedef unsigned char ipv4_addr_t[4];
+
+/* Logitud máxmima del nombre de un interfaz de red */
+#define IFACE_NAME_MAX_LENGTH 32
+
 typedef struct ipv4_route {
   ipv4_addr_t subnet_addr;
   ipv4_addr_t subnet_mask;

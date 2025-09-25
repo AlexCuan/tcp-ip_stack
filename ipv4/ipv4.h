@@ -88,4 +88,6 @@ uint16_t ipv4_checksum ( unsigned char * data, int len );
 
 int ipv4_send (ipv4_layer_t * layer, ipv4_addr_t dst, uint8_t protocol,  unsigned char * payload, int payload_len);
 
+ipv4_layer_t* ipv4_open(char * file_conf, char * file_conf_route);
+
 #endif /* _IPv4_H */
