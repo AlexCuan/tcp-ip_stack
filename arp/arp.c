@@ -30,7 +30,9 @@ int arp_resolve(eth_iface_t * iface, ipv4_addr_t target_ip, mac_addr_t mac) {
     request.ptype = htons(0x0800); // IPv4
     request.oper = htons(1); // ARP request
     eth_getaddr(iface, request.sha);
-    memcpy(request.spa, IPv4_ZERO_ADDR, IPv4_ADDR_SIZE);
+    ipv4_addr_t sender_ip;
+    ipv4_str_addr("192.100.100.101", sender_ip);
+    memcpy(request.spa, sender_ip, IPv4_ADDR_SIZE);
     memcpy(request.tha, MAC_BCAST_ADDR, MAC_ADDR_SIZE);
     memcpy(request.tpa, target_ip, IPv4_ADDR_SIZE);
 
