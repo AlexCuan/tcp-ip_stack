@@ -49,7 +49,7 @@ int arp_resolve(eth_iface_t * iface, ipv4_addr_t target_ip, mac_addr_t mac) {
     do {
         int len = eth_recv(iface, dummy_source_mac, 0x0806, buffer, sizeof(buffer), timerms_left(&timer));
         if (len <= 0) {
-            return 0;
+            return -1;
         }
         if (len > 0) {
             if (len < sizeof(struct arp_pkt)) {
@@ -59,7 +59,7 @@ int arp_resolve(eth_iface_t * iface, ipv4_addr_t target_ip, mac_addr_t mac) {
             struct arp_pkt *arp_reply = (struct arp_pkt *)buffer;
             if (ntohs(arp_reply->oper) == 2 && (memcmp(arp_reply->spa, target_ip, IPv4_ADDR_SIZE) == 0)) {
                 memcpy(mac, arp_reply->sha, MAC_ADDR_SIZE);
-                return 1;
+                return 0;
             }
         }
     } while (timerms_left(&timer) > 0);
