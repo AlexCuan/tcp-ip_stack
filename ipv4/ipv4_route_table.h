@@ -60,32 +60,6 @@ ipv4_route_t * ipv4_route_create
 ( ipv4_addr_t subnet, ipv4_addr_t mask, char* iface, ipv4_addr_t gw );
 
 
-/* int ipv4_route_lookup ( ipv4_route_t * route, ipv4_addr_t addr );
- *
- * DESCRIPCIÓN:
- *   Esta función indica si la dirección IPv4 especificada pertence a la
- *   subred indicada. En ese caso devuelve la longitud de la máscara de la
- *   subred.
- *
- * ************************************************************************
- * * Esta función NO está implementada, debe implementarla usted para que *
- * * funcione correctamente la función 'ipv4_route_table_lookup()'.       *
- * ************************************************************************
- * 
- * PARÁMETROS:
- *   'route': Ruta a la subred que se quiere comprobar.
- *    'addr': Dirección IPv4 destino.
- *
- * VALOR DEVUELTO:
- *   Si la dirección IPv4 pertenece a la subred de la ruta especificada, debe
- *   devolver un número positivo que indica la longitud del prefijo de
- *   subred. Esto es, el número de bits a uno de la máscara de subred.
- *   La función devuelve '-1' si la dirección IPv4 no pertenece a la subred
- *   apuntada por la ruta especificada.
- */
-int ipv4_route_lookup ( ipv4_route_t * route, ipv4_addr_t addr );
-
-
 /* void ipv4_route_print ( ipv4_route_t * route );
  *
  * DESCRIPCIÓN:

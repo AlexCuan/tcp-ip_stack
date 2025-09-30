@@ -75,31 +75,7 @@ ipv4_route_t * ipv4_route_create
  */
 int ipv4_route_lookup ( ipv4_route_t * route, ipv4_addr_t addr )
 {
-  // Asegurarse de que los punteros no son nulos
-  if (route == NULL || addr == NULL) {
-    return -1;
-  }
-
-  // 1. Comprobar si la dirección pertenece a la subred de la ruta.
-  //    La condición es: (addr & subnet_mask) == subnet_addr
-  for (int i = 0; i < IPv4_ADDR_SIZE; i++) {
-    if ((addr[i] & route->subnet_mask[i]) != route->subnet_addr[i]) {
-      // Si la condición no se cumple para cualquier byte, la dirección no pertenece a la subred.
-      return -1;
-    }
-  }
-
-  // 2. Si la dirección pertenece, calcular la longitud del prefijo (contar bits '1' en la máscara).
-  int prefix_length = 0;
-  for (int i = 0; i < IPv4_ADDR_SIZE; i++) {
-    unsigned char mask_byte = route->subnet_mask[i];
-    // Contar los bits a '1' en cada byte de la máscara
-    while (mask_byte > 0) {
-      // La operación 'n & (n-1)' apaga el bit '1' menos significativo.
-      mask_byte &= (mask_byte - 1);
-      prefix_length++;
-    }
-  }
+  // TODO: Implement
 
   return prefix_length;
 }

@@ -111,11 +111,18 @@ uint16_t ipv4_checksum ( unsigned char * data, int len )
 }
 
 int ipv4_send (ipv4_layer_t * layer, ipv4_addr_t dst, uint8_t protocol,  unsigned char * payload, int payload_len){
-  ipv4_route_t *route = ipv4_route_table_lookup(layer->routing_table, dst);
-  if (!route) {
-    return -1;
-  }
 
+  ipv4_route_t route_obj;
+  ipv4_addr_t subnet_addr = {192, 100, 101, 0};
+  ipv4_addr_t subnet_mask = {255, 255, 255, 0};
+  ipv4_addr_t gateway_addr = {192, 100, 100, 102};
+
+  memcpy(route_obj.subnet_addr, subnet_addr, IPv4_ADDR_SIZE);
+  memcpy(route_obj.subnet_mask, subnet_mask, IPv4_ADDR_SIZE);
+  memcpy(route_obj.gateway_addr, gateway_addr, IPv4_ADDR_SIZE);
+    strncpy(route_obj.iface, "eth1", IFACE_NAME_MAX_LENGTH);
+  
+  ipv4_route_t* route = &route_obj;
 
   mac_addr_t next_hop_mac;
   ipv4_addr_t next_hop_ip;
@@ -156,49 +163,6 @@ int ipv4_send (ipv4_layer_t * layer, ipv4_addr_t dst, uint8_t protocol,  unsigne
   free(buffer);
 
   return bytes_sent;
-}
-
-ipv4_layer_t * ipv4_open(char * file_conf, char * file_conf_route) {
-  ipv4_layer_t * layer = malloc(sizeof(ipv4_layer_t));
-  if (!layer) {
-    perror("malloc ipv4_layer_t");
-    return NULL;
-  }
-
-  /* 1. Crear layer->routing_table */
-  layer->routing_table = ipv4_route_table_create();
-  if (!layer->routing_table) {
-    free(layer);
-    return NULL;
-  }
-
-  /* 2. Leer direcciones y subred de file_conf */
-  char ifname[IFACE_NAME_MAX_LENGTH];
-  if (ipv4_config_read(file_conf, ifname, layer->addr, layer->netmask) != 0) {
-    fprintf(stderr, "Error reading IPv4 config file %s\n", file_conf);
-    ipv4_route_table_free(layer->routing_table);
-    free(layer);
-    return NULL;
-  }
-
-  /* 3. Leer tabla de reenvío IP de file_conf_route */
-  if (ipv4_route_table_read(file_conf_route, layer->routing_table) < 0) {
-    fprintf(stderr, "Error reading IPv4 route table file %s\n", file_conf_route);
-    ipv4_route_table_free(layer->routing_table);
-    free(layer);
-    return NULL;
-  }
-
-  /* 4. Inicializar capa Ethernet con eth_open() */
-  layer->iface = eth_open(ifname);
-  if (!layer->iface) {
-    fprintf(stderr, "Error opening Ethernet interface %s\n", ifname);
-    ipv4_route_table_free(layer->routing_table);
-    free(layer);
-    return NULL;
-  }
-
-  return layer;
 }
 
 // Helper to print hex data
