@@ -11,7 +11,7 @@ int main() {
     }
 
     ipv4_addr_t dest_addr;
-    ipv4_str_addr("192.100.101.102", dest_addr);
+    ipv4_str_addr("192.100.101.101", dest_addr);
 
     char* message = "Hello, UDP Server!";
     int message_len = strlen(message);
