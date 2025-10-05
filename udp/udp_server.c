@@ -13,7 +13,7 @@ int main() {
     ipv4_addr_t src_addr;
     uint16_t src_port;
 
-    printf("UDP server listening ");
+    printf("UDP server listening\n");
 
     int bytes_received = udp_rcv(udp_layer, &src_port, src_addr, buffer, 1500, -1);
     if (bytes_received < 0) {
