@@ -4,7 +4,7 @@
 #include "../ipv4/ipv4.h"
 #include <stdint.h>
 
-
+#define IP_PROTOCOL_UDP 17
 
 typedef struct {
     ipv4_layer_t* ipv4_layer;
