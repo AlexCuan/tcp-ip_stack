@@ -86,7 +86,7 @@ int udp_send(udp_layer_t* layer, ipv4_addr_t dest_addr, uint16_t dest_port, unsi
 
 int udp_rcv(udp_layer_t* layer, uint16_t* src_port, ipv4_addr_t src_addr, unsigned char* buffer, int buffer_len, long int timeout) {
     unsigned char packet[buffer_len];
-    int received_len = ipv4_recv(layer->ipv4_layer, IP_PROTOCOL_UDP, src_addr, packet, buffer_len, timeout);
+    int received_len = ipv4_recv(layer->ipv4_layer, IP_PROTOCOL_UDP, packet, src_addr, buffer_len, timeout);
 
     if (received_len < sizeof(udp_header_t)) {
         return -1;
